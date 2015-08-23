@@ -1,0 +1,88 @@
+<style>
+
+/* slide titles */
+.reveal h3 { 
+  font-size: 60px;
+  color: blue;
+}
+
+/* heading for slides with two hashes ## */
+.reveal .slides section .slideContent h2 {
+   font-size: 40px;
+   font-weight: bold;
+   color: green;
+}
+
+/* ordered and unordered list styles */
+.reveal ul, 
+.reveal ol {
+    font-size: 30px;
+    color: black;
+    list-style-type: square;
+}
+
+</style>
+
+Coursera Johns Hopkins Data Science Capstone: Word Prediction
+========================================================
+transition: rotate
+author: Jinghao He
+date: August 22, 2015
+
+ 
+Overview
+========================================================
+
+- In this capstone project, a ShinyApp is designed to predict the next word in an incomplete phrase or sentence using the ngram model.
+
+- The datasets including *blogs*, *news*, and *twitter* were provided by Swiftkey. 50% of datasets were used for the corpus.
+
+- *Katz* backoff smoothing was applied in the ngram model.
+
+- The ShinyApp can be found at https://jinghaohe.shinyapps.io/FinalProject.
+
+
+Create N-Grams from the Corpus
+========================================================
+
+- Ngrams were extracted from samll divided subsets of a large corpus to overcome the memory limit using a vectorized code.   
+
+- The corpus was cleaned by removing special characters, punctuation, numbers etc. The stopwords were kept as they appear to be useful in predicting words. Profanity filtering was also applied. 
+
+- Ngrams (up to quadrigrams) as well as their counts will be used in the language model. 
+
+- To predict words *fast but accurately* in a mobile application, ngrams were extracted from a *large corpus* but only those with counts *larger than thresholds* were kept. This strategy siginificatly reduces the size of ngrams with little effects on the accuracy. For instance, 298 Mb quadrigram file obtained from 50% datasets was reduced to 2.5 Mb for the threshold counts of 5. 
+
+
+
+
+
+Ngram Model with Katz Smoothing
+========================================================
+
+- Ngram model under Markov assumption was applied in word prediction. The word $w_{n}$ predicted is dependent on the last (n-1) words, $w_{i-(n-1)},,..,w_{i-1}$, or the conditional probability $P(w_{i}|w_{i-(n-1)},,..,w_{i-1})$.
+
+- *Katz* backoff model was used in this ShinyApp. Backoff algorithm solves the problem of zero frequency N-grams by looking for a (N-1)-gram if no N-gram exists for the specific word sequence. The App speed was improved by vectorizing the code. 
+
+- See details of Katz backoff algorithm in the course of Natural Language Processing provided by Corsera and Columbia Uinversity (https://class.coursera.org/nlangp-001/lecture/53).  
+
+
+
+
+Use ShinyApp to Predict a Word
+========================================================
+left: 50%
+
+**Screenshot of ShinyApp** 
+![alt text](screenshot.png)
+
+- **About Panel**
+ - Brief introduction of this ShinyApp and usage.
+
+***
+- **Prediction Panel**
+  - Predict the next word by entering an incomplete phrase/sentence.
+  - Select bigram, trigram, or quadrigram for prediction.
+  - Adjust the low-level discount parameter in *Katz* backoff model.
+  - Other possible words are also shown in a histogram. 
+
