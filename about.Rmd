@@ -1,0 +1,25 @@
+### Predict the Next Word in an Incomplete Phrase/Sentence
+
+The ShinyApp is designed to predict the next word by ngram model with Katz backoff smoothing using the dataset provided by Swiftkey (downloaded from the site of Cousera JHU Data Science Capstone).
+
+#### Use of ShinyApp
+
+The predicted word will be shown after users enter and submit an incomplete phrase or sentence. The predicted word is one that has the highest probability. However, this ShinyApp also shows other possible words using a histogram (maximum number of words to show is 20). Users can select bigram, trigram, or quadrigram and see the difference in the word prediction. Users are also allowed to adjust the low-level parameter of discount used in the Katz backoff model. 
+
+#### Corpus
+
+50% of dataset was randomly sampled as a corpus used for this prediction. The corpus was then cleaned by removing special characters, punctuation, numbers etc. The stopwords were kept in the corpus as they appear to be useful in predicting words. Profanity filtering was applied by using a full list of bad words (google_twunter_lol.txt) banned by Google (https://gist.github.com/ryanlewis/a37739d710ccdb4b406d). 
+
+#### Creation of Ngrams
+
+The unigram, bigram, trigram, and quadrigram as well as their counts were extracted from cleaned corpus. In this shinyApp directly, these ngram counts are used to calculate the probabilty based on the Katz backoff model. Due to a large size of dataset, ngrams were first extracted from samll divided subsets of a large dataset to overcome the memory limit using a vectorized code (createNgramFull.R) and they were then merged.
+
+#### Speed and Accuracy of Word Prediction
+
+To have a *fast* but *accurate* word prediction in a mobile application, ngrams were created by *balancing* size of large corpus and the thresholds of ngram counts that are used to keep ngrams. This strategy siginificatly reduces the size of ngrams with little effects on the accuracy of word prediction. For instance, quadrigrams of 298 Mb from 50% dataset was reduced to 2.5 Mb for the threshold counts of 5.
+
+#### Katz Backoff Model
+
+In this ShinyApp, Katz backoff model has been *vectorized* upto quadrigrams to improve the speed of prediction.The details of Katz backoff algorithm can be found at https://class.coursera.org/nlangp-001/lecture/53. 
+
+
